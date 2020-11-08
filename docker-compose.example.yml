@@ -9,6 +9,8 @@ services:
     cap_add:
       - DAC_OVERRIDE
       - CHOWN
+    security_opt:
+      - no-new-privileges:true
     networks:
       - wings0
     ports:
