@@ -4,6 +4,8 @@ services:
   wings:
     image: ghcr.io/pterodactyl/wings:latest
     restart: always
+    cap_drop:
+      - ALL
     networks:
       - wings0
     ports:
