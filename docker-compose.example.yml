@@ -4,6 +4,11 @@ services:
   wings:
     image: ghcr.io/pterodactyl/wings:latest
     restart: always
+    cap_drop:
+      - ALL
+    cap_add:
+      - DAC_OVERRIDE
+      - CHOWN
     networks:
       - wings0
     ports:
