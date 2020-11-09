@@ -11,6 +11,7 @@ services:
       - CHOWN
     security_opt:
       - no-new-privileges:true
+    user: 7001:7000
     networks:
       - wings0
     ports:

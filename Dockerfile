@@ -28,6 +28,13 @@ FROM        busybox:1.33.0
 
 RUN         echo "ID=\"busybox\"" > /etc/os-release
 
+ARG user=pterodactyl
+ARG group=panel
+
+RUN addgroup -g 7000 -S ${group} && adduser -H -u 7001 -S ${user} -G ${group}
+
+USER ${user}
+
 COPY        --from=builder /app/wings /usr/bin/
 
 CMD         [ "wings", "--config", "/etc/pterodactyl/config.yml" ]
