@@ -12,6 +12,7 @@ services:
     security_opt:
       - no-new-privileges:true
     user: 7001:7000
+    read_only: true
     networks:
       - wings0
     ports:
