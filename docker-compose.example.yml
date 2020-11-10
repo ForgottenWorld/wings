@@ -6,9 +6,6 @@ services:
     restart: always
     cap_drop:
       - ALL
-    cap_add:
-      - DAC_OVERRIDE
-      - CHOWN
     security_opt:
       - no-new-privileges:true
     user: 7001:7000
