@@ -16,6 +16,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"syscall"
 	"time"
 )
 
@@ -205,9 +206,12 @@ func (fs *Filesystem) Chown(path string) error {
 	uid := config.Get().System.User.Uid
 	gid := config.Get().System.User.Gid
 
-	// Start by just chowning the initial path that we received.
-	if err := os.Chown(cleaned, uid, gid); err != nil {
-		return err
+	info, _ := os.Stat(cleaned)
+	if stat, ok := info.Sys().(*syscall.Stat_t); !ok || int(stat.Uid) != uid {
+		// Start by just chowning the initial path that we received.
+		if err := os.Chown(cleaned, uid, gid); err != nil {
+			return err
+		}
 	}
 
 	// If this is not a directory we can now return from the function, there is nothing
@@ -232,7 +236,11 @@ func (fs *Filesystem) Chown(path string) error {
 				return nil
 			}
 
-			return os.Chown(p, uid, gid)
+			stp, _ := os.Stat(p)
+			if stat, ok := stp.Sys().(*syscall.Stat_t); !ok || int(stat.Uid) != uid {
+				return os.Chown(p, uid, gid)
+			}
+			return nil
 		},
 	})
 }
