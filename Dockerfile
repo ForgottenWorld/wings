@@ -19,4 +19,5 @@ RUN upx wings
 FROM busybox:1.33.0
 RUN echo "ID=\"busybox\"" > /etc/os-release
 COPY --from=builder /app/wings /usr/bin/
+COPY --from=builder /etc/ssl/certs/ /etc/ssl/certs/
 CMD [ "wings", "--config", "/etc/pterodactyl/config.yml" ]
