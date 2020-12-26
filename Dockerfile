@@ -36,5 +36,6 @@ RUN addgroup -g 7000 -S ${group} && adduser -H -u 7001 -S ${user} -G ${group}
 USER ${user}
 
 COPY        --from=builder /app/wings /usr/bin/
+COPY        --from=builder /etc/ssl/certs/ /etc/ssl/certs/
 
 CMD         [ "wings", "--config", "/etc/pterodactyl/config.yml" ]
