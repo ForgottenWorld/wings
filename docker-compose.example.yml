@@ -27,7 +27,7 @@ services:
       - "/var/lib/pterodactyl/:/var/lib/pterodactyl/"
       - "/var/log/pterodactyl/:/var/log/pterodactyl/"
       - "/etc/logrotate.d/wings:/etc/logrotate.d/wings"
-      - "/tmp/pterodactyl/:/tmp/pterodactyl/"
+      - "/etc/pterodactyl/tmp/:/tmp/pterodactyl/"
       - "/etc/ssl/certs:/etc/ssl/certs:ro"
       # you may need /srv/daemon-data if you are upgrading from an old daemon
       #- "/srv/daemon-data/:/srv/daemon-data/"

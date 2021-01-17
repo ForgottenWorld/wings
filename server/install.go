@@ -203,7 +203,7 @@ func (ip *InstallationProcess) Run() error {
 
 // Returns the location of the temporary data for the installation process.
 func (ip *InstallationProcess) tempDir() string {
-	return filepath.Join(os.TempDir(), "pterodactyl/", ip.Server.Id())
+	return filepath.Join("/etc/pterodactyl/tmp/", ip.Server.Id())
 }
 
 // Writes the installation script to a temporary file on the host machine so that it
