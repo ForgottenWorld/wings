@@ -12,6 +12,7 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
+	"syscall"
 	"time"
 
 	"emperror.dev/errors"
@@ -234,9 +235,16 @@ func (fs *Filesystem) Chown(path string) error {
 	uid := config.Get().System.User.Uid
 	gid := config.Get().System.User.Gid
 
-	// Start by just chowning the initial path that we received.
-	if err := os.Chown(cleaned, uid, gid); err != nil {
-		return errors.Wrap(err, "server/filesystem: chown: failed to chown path")
+	info, err := os.Stat(cleaned)
+	if err != nil {
+		return errors.Wrap(err, "server/filesystem: chown: failed to stat path")
+	}
+
+	if stat, ok := info.Sys().(*syscall.Stat_t); ok && uid != int(stat.Uid) {
+		// Start by just chowning the initial path that we received.
+		if err := os.Chown(cleaned, uid, gid); err != nil {
+			return errors.Wrap(err, "server/filesystem: chown: failed to chown path")
+		}
 	}
 
 	// If this is not a directory we can now return from the function, there is nothing
@@ -260,7 +268,14 @@ func (fs *Filesystem) Chown(path string) error {
 
 				return nil
 			}
+			info, err := os.Stat(p)
+			if err != nil {
+				return err
+			}
 
+			if stat, ok := info.Sys().(*syscall.Stat_t); ok && uid == int(stat.Uid) {
+				return nil
+			}
 			return os.Chown(p, uid, gid)
 		},
 	})
