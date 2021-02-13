@@ -86,7 +86,7 @@ func (e *Environment) Start() error {
 		// to truncate them.
 		if _, err := os.Stat(c.LogPath); err == nil {
 			if err := os.Truncate(c.LogPath, 0); err != nil {
-				return errors.Wrap(err, "environment/docker: failed to truncate instance logs")
+				//return errors.Wrap(err, "environment/docker: failed to truncate instance logs")
 			}
 		}
 	}
