@@ -85,7 +85,7 @@ func (e *Environment) Start() error {
 		// to truncate them.
 		if _, err := os.Stat(c.LogPath); err == nil {
 			if err := os.Truncate(c.LogPath, 0); err != nil {
-				return err
+				//return err
 			}
 		}
 	}
