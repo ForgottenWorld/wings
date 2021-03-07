@@ -73,6 +73,9 @@ type ApiConfiguration struct {
 	Host string `default:"0.0.0.0" yaml:"host"`
 
 	// The port that the internal webserver should bind to.
+	InternalPort int `default:"8443" yaml:"internal_port"`
+
+	// The port that the internal webserver should bind to.
 	Port int `default:"8080" yaml:"port"`
 
 	// SSL configuration for the daemon.
